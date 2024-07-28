@@ -101,7 +101,7 @@ public class Linkedlist  implements Mylinkedlist
         return false;
     }
 
-   private  ListNode Findidx2(int num)
+    private  ListNode Findidx2(int num)
     {
         ListNode cur=this.head;
         while (cur != null) {
@@ -123,8 +123,15 @@ public class Linkedlist  implements Mylinkedlist
         if (this.head.val == key)
         {
             this.head = this.head.next;
-            this.head.prev=null;
-            return;
+            if(head!=null)
+            {
+                this.head.prev=null;
+                return;
+                // 只有一个元素的链表
+            }
+            last=null;
+            return ;
+            // 删头节点
         }
         ListNode cur=Findidx2(key);
         if (cur == null) {
@@ -135,38 +142,46 @@ public class Linkedlist  implements Mylinkedlist
             cur.prev.next=null;
             cur.prev=last;
             return;
+            // 删尾节点
         }
         cur.prev.next=cur.next;
         cur.next.prev=cur.prev;
     }
 
-
     @Override
-    public void removeAllKey(int key) {
-        ListNode shaobing = new ListNode(0);
-        shaobing.next = head;
-        if (head != null) {
-            head.prev = shaobing;
-        }
-        ListNode temp = shaobing;
-        while (temp.next != null) {
-            if (temp.next.val == key) {
-                ListNode toDelete = temp.next;
-                temp.next = toDelete.next;
-                if (toDelete.next != null) {
-                    toDelete.next.prev = temp;
-                } else {
-                    last = temp; // 更新尾节点
+    public void removeAllKey(int key)
+    {
+        ListNode cur=head;
+        while(cur!=null)
+        {
+            if(cur.val==key)
+            {
+                if(cur==head)
+                {
+                    head=head.next;
+                    if(head==null)
+                    {
+                        last=null;
+                    }
+                    else
+                    {
+                        head.prev=null;
+                    }
                 }
-            } else {
-                temp = temp.next;
+                else
+                {
+                    cur.prev.next=cur.next;
+                    if(cur.next==null)
+                    {
+                        last=last.prev;
+                    }
+                    else
+                    {
+                        cur.next.prev=cur.prev;
+                    }
+                }
             }
-        }
-        head = shaobing.next;
-        if (head != null) {
-            head.prev = null;
-        } else {
-            last = null; // 更新尾节点为 null，因为链表已经为空
+            cur=cur.next;
         }
     }
 
