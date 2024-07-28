@@ -101,11 +101,11 @@ public class Linkedlist  implements Mylinkedlist
         return false;
     }
 
-    private  ListNode Findidx2(int num)
+   private  ListNode Findidx2(int num)
     {
         ListNode cur=this.head;
-        while (cur.next != null) {
-            if (cur.next.val==num) {
+        while (cur != null) {
+            if (cur.val==num) {
                 return cur;
             }
             cur = cur.next;
@@ -130,10 +130,16 @@ public class Linkedlist  implements Mylinkedlist
         if (cur == null) {
             return;
         }
-        ListNode del=cur.next;
-        del.next.prev=cur;
-        cur.next=del.next;
+        if(cur.next==null)
+        {
+            cur.prev.next=null;
+            cur.prev=last;
+            return;
+        }
+        cur.prev.next=cur.next;
+        cur.next.prev=cur.prev;
     }
+
 
     @Override
     public void removeAllKey(int key) {
